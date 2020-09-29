@@ -40,6 +40,7 @@ public class InputOutputTool {
         }
         else {
             System.out.println("error 404: ukendt forespøgsel, prøv venligst igen");
+            menu();
         }
     }
     
@@ -74,7 +75,7 @@ public class InputOutputTool {
         double periods = (double) Double.parseDouble(sc.nextLine());
         System.out.println("Venligst indtast din ønskede slutkapital");
         double futureCapital = (double) Double.parseDouble(sc.nextLine());
-        double result = model.calculatePeriods(futureCapital, presentCapital, periods);
+        double result = model.calculateInterest(futureCapital, presentCapital, periods);
         System.out.println("Med startkapital: "+presentCapital+", slutkapital: "+futureCapital+", og antallet af terminer: "+periods+", har du modtaget renten: "+result+"\n");
         menu();
     }
