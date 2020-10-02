@@ -9,14 +9,14 @@ import java.util.Scanner;
 import models.FinancialModels;
 
 /**
- *
+ * 
  * @author alex
  */
 public class InputOutputTool {
     
     FinancialModels model = new FinancialModels();
     Scanner sc;
-
+    
     public void welcome() {
         System.out.println(this.welcomeString);
         this.menu();
@@ -42,6 +42,10 @@ public class InputOutputTool {
             System.out.println("error 404: ukendt forespøgsel, prøv venligst igen");
             menu();
         }
+    }
+    
+    public boolean isThisANumber(String input) {
+        return input.chars().allMatch(Character::isDigit);
     }
     
     public void futureCapitalChosen() {
