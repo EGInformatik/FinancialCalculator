@@ -25,7 +25,7 @@ public class FinancialModels {
     }   
     
     public double calculatePresentCapital(double futureCapital, double interest, double periods) {
-        return 0;
+        return futureCapital/Math.pow(1+interest,periods);
     }
     
      /**
@@ -40,6 +40,6 @@ public class FinancialModels {
     }
     
     public double calculatePeriods(double futureCapital, double presentCapital, double interest) {
-        return 0;
+        return (Math.log(futureCapital)-Math.log(presentCapital))/Math.log(1+interest);
     }
 }

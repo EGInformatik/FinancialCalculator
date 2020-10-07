@@ -33,56 +33,61 @@ public class InputOutputTool {
             this.interestChosen();
         }
         else if(input.equals("3")) {
-            this.numerOfPeriodsChosen();
+            this.numberOfPeriodsChosen();
         }
         else if(input.equals("4")) {
             System.out.println("Programmet afsluttes");
+            return;
         }
         else {
             System.out.println("error 404: ukendt forespøgsel, prøv venligst igen");
-            menu();
         }
+        menu();
     }
     
-    public boolean isThisANumber(String input) {
-        return input.chars().allMatch(Character::isDigit);
+    public double collectInput(String message) {
+        System.out.println(message);
+        String input = sc.nextLine();
+        double numericInput = 0;
+        if(input.chars().allMatch(Character::isDigit)==false) {
+            System.out.println(notANumberString);
+            this.collectInput(message);
+        } else {
+            numericInput = (double) Double.parseDouble(input);
+        }
+        return numericInput;
     }
     
     public void futureCapitalChosen() {
-        System.out.println("Venligst indtast din nuværende kapital: ");
-        double capital = (double) Double.parseDouble(sc.nextLine());
-        System.out.println("Venligst indtast din rente i antal procent: ");
-        double interest = (double) Double.parseDouble(sc.nextLine())/100;
-        System.out.println("Venligst indtast den ønskede tidsperiode i antal terminer: ");
-        double periods = (double) Double.parseDouble(sc.nextLine());
+        double capital = this.collectInput(startCapitalString);
+        double interest = this.collectInput(interestString)/100;
+        double periods = this.collectInput(numberOfPeriodsString);
         double result = model.calculateFutureCapital(capital, interest, periods);
         System.out.println("Om "+periods+" med følgende kapital: "+capital+" og renten: "+interest+" vil du nå følgende sum "+result+"\n");
-        menu();
     }
     
-    public void numerOfPeriodsChosen() {
-        System.out.println("Venligst indtast din nuværende kapital: ");
-        double presentCapital = (double) Double.parseDouble(sc.nextLine());
-        System.out.println("Venligst indtast din rente i antal procent: ");
-        double interest = (double) Double.parseDouble(sc.nextLine())/100;
-        System.out.println("Venligst indtast din ønskede slutkapital");
-        double futureCapital = (double) Double.parseDouble(sc.nextLine());
+    public void numberOfPeriodsChosen() {
+        double presentCapital = this.collectInput(startCapitalString);
+        double interest = this.collectInput(interestString)/100;
+        double futureCapital = this.collectInput(finalCapitalString);
         double result = model.calculatePeriods(futureCapital, presentCapital, interest);
         System.out.println("Med startkapital "+presentCapital+", renten "+interest+", og ønskede slutkapital på "+futureCapital+", vil du skulle vente "+result+" terminer\n");
-        menu();
     }
     
     public void interestChosen() {
-        System.out.println("Venligst indtast din nuværende kapital: ");
-        double presentCapital = (double) Double.parseDouble(sc.nextLine());
-        System.out.println("Venligst indtast antallet af terminer ");
-        double periods = (double) Double.parseDouble(sc.nextLine());
-        System.out.println("Venligst indtast din ønskede slutkapital");
-        double futureCapital = (double) Double.parseDouble(sc.nextLine());
+        double presentCapital = this.collectInput(startCapitalString);
+        double periods = this.collectInput(numberOfPeriodsString);
+        double futureCapital = this.collectInput(finalCapitalString);
         double result = model.calculateInterest(futureCapital, presentCapital, periods);
         System.out.println("Med startkapital: "+presentCapital+", slutkapital: "+futureCapital+", og antallet af terminer: "+periods+", har du modtaget renten: "+result+"\n");
-        menu();
     }
+    
+    String startCapitalString = "Venligst indtast din start-kapital";
+    String interestString = "Venligst indtast din rentefod";
+    String finalCapitalString = "Venligst indtast din slut-kapital";
+    String numberOfPeriodsString = "Venlist indtast antallet af terminer";
+    
+    String notANumberString = "Det var ikke et tal, prøv igen";
 
     String welcomeString = "\n\n\n"
             + "                                                                         \n"
@@ -122,8 +127,8 @@ public class InputOutputTool {
             + "                                                                         ";
 
 
-    String menuString = "\n\n"
-            + "\nVælg 1 for at beregne fremtidsværdi af nuværende kapital"
+    String menuString = 
+            "\nVælg 1 for at beregne fremtidsværdi af nuværende kapital"
             + "\nVælg 2 for at beregne rente mellem to perioder"
             + "\nVælg 3 for at beregne antallet af terminer for at opnå en bestemt kapital"
             + "\nVælg 4 for at afslutte programmet";
